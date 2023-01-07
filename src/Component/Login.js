@@ -1,5 +1,6 @@
 import React, {useState, Component} from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // function nav(){
 //   const navigate=useNavigate()
@@ -69,6 +70,10 @@ const Login =() =>{
 
           <div >
           <button class="w3-btn w3-blue-grey" type="submit" value="submit" ><b>Submit</b></button>
+      
+          </div>
+          <div>
+          <Link to="/Register">Register</Link>
           </div>
        </form>
 
