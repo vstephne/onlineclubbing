@@ -8,10 +8,6 @@ import Register from './Component/Register'
 
 function App(){
 
-  
-  
-  
-  
    return(
     <>
     <BrowserRouter>
