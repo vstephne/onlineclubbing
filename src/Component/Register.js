@@ -18,6 +18,7 @@ const Login = () =>{
     const [userName, setuserName] = useState('')
     const [phone, setphone] = useState('')
     const [error, setErrors]=useState({new:"new"})
+    const [isSubmit, setIsSubmit]=useState(false)
     // const [isSubmit, setisSubmit]=useState(false);
   
     const[value, setvalues] = useState(
@@ -30,17 +31,16 @@ const Login = () =>{
 
     useEffect(()=>
     {
-      setErrors(Validation(value));    
+      if(isSubmit){
+       setErrors(Validation(value)); 
+      }   
     },[value]   
     )
 
 
     useEffect(()=>
     {
-      if(Object.keys(error).length>0 && Object.keys(error)[0] === "new"){
-        setErrors({"hi":"hi"})
-      }
-      else if(Object.keys(error).length === 0 ){
+      if(Object.keys(error).length === 0 ){
        navigate("/");
       }
     },[error]   
@@ -48,6 +48,7 @@ const Login = () =>{
 
     
   function submitbutton(e){
+    setIsSubmit(true)
     e.preventDefault();
     setvalues({Email: email,
       Password: password,
