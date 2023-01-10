@@ -2,24 +2,19 @@ import React, {useState, useEffect, Component} from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Validation from './Validation';
-// function nav(){
-//   const navigate=useNavigate()
-//   navigate("home")
-// }
+
 
 
 const Login = () =>{
   
     const navigate = useNavigate();
-  
-    var count =0;
+
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [userName, setuserName] = useState('')
     const [phone, setphone] = useState('')
-    const [error, setErrors]=useState({new:"new"})
+    const [error, setErrors]=useState({})
     const [isSubmit, setIsSubmit]=useState(false)
-    // const [isSubmit, setisSubmit]=useState(false);
   
     const[value, setvalues] = useState(
       {
@@ -40,7 +35,7 @@ const Login = () =>{
 
     useEffect(()=>
     {
-      if(Object.keys(error).length === 0 ){
+      if(Object.keys(error).length === 0 && isSubmit){
        navigate("/");
       }
     },[error]   
@@ -59,15 +54,6 @@ const Login = () =>{
     
     }
 
- 
-     
-  
-
-  function handleChange(e){
-    
-    setvalues({...value, [e.target.name]: e.target.value})
-  };
-  // const Forminput = (props) => {
     return(
      
       <div>
