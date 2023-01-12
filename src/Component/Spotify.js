@@ -30,11 +30,18 @@ const Spotify = ()=>{
   const RESPONSE_TYPE = "token"
   const [searchKey, setSearchKey] = useState("")
   const [artists, setArtists] = useState([])
+  const [songlinks, setSonglinks] = useState([])
+
+  useEffect((x)=>{
+        console.log(x)
+        renderLinks();
+    },[ songlinks])
+
   const logout = () => {
     setToken("")
     window.localStorage.removeItem("token")
   }
-  const [songs, setSongs] = useState([])
+  const [songs, setSong] = useState([])
 
 const searchArtists = async (e) => {
     e.preventDefault()
@@ -60,14 +67,16 @@ const searchArtists = async (e) => {
           }
       }).then(s=>{
         console.log(s);
+        let r=[]
         s.data.items.forEach(x=>{
-          const {songlist}=axios.get(x.track.href, {
+          axios.get(x.track.href, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
+        r=r.concat(x.track.external_urls.spotify)
       })
-       
+      setSonglinks(r)
     })
   
       
@@ -78,6 +87,15 @@ const searchArtists = async (e) => {
     //console.log(playlist)
     
 }
+
+const renderLinks = () => {
+  let x =0
+  return  (
+      <div id="">
+          {/* {<a href={x.external_urls.spotify}>{x.name}</a>} */}
+      </div>
+  )
+  }
 
 const renderArtists = () => {
     return artists.map(artist => (
