@@ -3,17 +3,16 @@ import {Box, Flex, Stack, Text} from "@chakra-ui/layout"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash, faUser } from '@fortawesome/free-solid-svg-icons'
 
-const ContactCard=({contact,onOpen,getContactId}) => {
+const ContactCard=({contact,onOpen,getContactId,deleteContact}) => {
 
   const updateContact=(id)=>
   {
     getContactId(id);
     onOpen();
   }
-  const deleteContact=(id)=>
+  const deleteContactinfo=(id)=>
   {
     deleteContact(id);
-    
   }
 
   return (
@@ -33,7 +32,7 @@ const ContactCard=({contact,onOpen,getContactId}) => {
               <Box mr="4" onClick={()=>updateContact(contact.id)}>
                 <FontAwesomeIcon size="2x" icon={faEdit}/>
              </Box>
-             <Box color="maroon" onClick={()=>deleteContact(contact.id)}>
+             <Box color="maroon" onClick={()=>deleteContactinfo(contact.id)}>
               <FontAwesomeIcon size="2x" icon={faTrash}/>
              </Box>
              </Flex>

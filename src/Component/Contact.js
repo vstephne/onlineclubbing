@@ -12,17 +12,19 @@ const Contact=(contact)=>{
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen:isOpenEdit, onOpen:onOpenEdit, onClose:onCloseEdit } = useDisclosure();
   const [contacts,setContacts] = useState([
-
+    {id:100,name:'Test',email:'test@gmail.com'}
   ]);
-
+  console.log(contacts);
   const updateContact=(email,name,id)=>
   {
-    
     setContacts(prev=>[...contacts.filter((contact)=>contact.id!==id),{email,name,id}]);
   }
-
+  
   const addNewContact=(email,name)=>{
+    if(contacts.findIndex((contact)=>contact.email===email)===-1)
+    {
     setContacts([...contacts,{email,name,id:uuidv4()}]);
+    }
   }
 
   const [email,setEmail]=useState(contact.email);
@@ -45,13 +47,8 @@ const Contact=(contact)=>{
     setContacts(prev=>[...contacts.filter((contact)=>contact.id!==id)]); 
   }
 
+
   const [contactId,setContactId]=useState();
-  if(contacts.findIndex((contact)=>contact.email===email)===-1)
-  {
-    setContacts([...contacts,{email,name,id:uuidv4()}]);
-  }
-
-
   const getContactId=(id)=>{
     setContactId(id);
   };
@@ -68,7 +65,7 @@ const Contact=(contact)=>{
             </FormControl>
             <FormControl id="name">
               <FormLabel>Name</FormLabel>
-              <Input value={name} onChange={(e)=>setName(e.target.value)} type='text' />        
+              <Input value={name}  type='text'  onChange={(e)=>setName(e.target.value)}  />        
             </FormControl>
             <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={onSubmit}>Add Contact</Button>
         </Stack>
