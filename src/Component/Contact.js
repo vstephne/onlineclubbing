@@ -1,33 +1,93 @@
 import { Button } from "@chakra-ui/button";
 import { AddIcon, SearchIcon } from "@chakra-ui/icons";
 import {Box, Flex, Heading, Stack, Text} from "@chakra-ui/layout"
-import { FormControl, FormHelperText, FormLabel, Input, InputGroup, InputLeftElement, useDisclosure } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input, InputGroup, InputLeftElement, useDisclosure } from '@chakra-ui/react'
 import ContactCard from './ContactCard'
 import React, {Component, useState} from 'react';
 import ContactInfo from "./ContactInfo";
+import {v4 as uuidv4 } from 'uuid';
 import { getMouseEventOptions } from "@testing-library/user-event/dist/utils/click/getMouseEventOptions";
 
-const Contact=()=>{
-  const { isOpen, onOpen, onClose } = useDisclosure()
+const Contact=(contact)=>{
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen:isOpenEdit, onOpen:onOpenEdit, onClose:onCloseEdit } = useDisclosure();
   const [contacts,setContacts] = useState([
-    {email:'vshree@gmu.edu',name:'Varshaa'},
-    {email:'kkollu@gmu.edu',name:'Kavya'},
-    {email:'sdk@gmu.edu',name:'Sandhya'},
+
   ]);
+
+  const updateContact=(email,name,id)=>
+  {
+    
+    setContacts(prev=>[...contacts.filter((contact)=>contact.id!==id),{email,name,id}]);
+  }
+
+  const addNewContact=(email,name)=>{
+    setContacts([...contacts,{email,name,id:uuidv4()}]);
+  }
+
+  const [email,setEmail]=useState(contact.email);
+  const [name,setName]=useState(contact.name);
+  const onSubmit=()=>{
+    if(contact)
+    {
+     updateContact(email,name,contact.id);
+     onClose();
+    }
+    else
+    {
+    addNewContact(email,name); 
+    onClose();
+    }
+  };
+
+  const deleteContact=(id)=>
+  {
+    setContacts(prev=>[...contacts.filter((contact)=>contact.id!==id)]); 
+  }
+
+  const [contactId,setContactId]=useState();
+  if(contacts.findIndex((contact)=>contact.email===email)===-1)
+  {
+    setContacts([...contacts,{email,name,id:uuidv4()}]);
+  }
+
+
+  const getContactId=(id)=>{
+    setContactId(id);
+  };
+
+  let selectContact=contacts.find((contact)=>contact.id===contactId);
 
     return(
       <>
       <ContactInfo isOpen={isOpen} onOpen={onOpen} onClose={onClose} title={"Contact Information"}>
         <Stack >
-            <FormControl>
+            <FormControl id="email">
               <FormLabel>Email address</FormLabel>
-              <Input type='email' />  
+              <Input value={email} type='email' onChange={(e)=>setEmail(e.target.value)} />  
             </FormControl>
-            <FormControl>
+            <FormControl id="name">
               <FormLabel>Name</FormLabel>
-              <Input type='text' />        
+              <Input value={name} onChange={(e)=>setName(e.target.value)} type='text' />        
             </FormControl>
-            <Button alignSelf="flex-end" bg="Peru" mb="25">Add Contact</Button>
+            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={onSubmit}>Add Contact</Button>
+        </Stack>
+      </ContactInfo>
+      <ContactInfo updateContact={updateContact} contact={selectContact} isOpen={isOpenEdit} onOpen={onOpenEdit} onClose={onCloseEdit} title={"Edit contact Information"}>
+        <Stack >
+            <FormControl id="email">
+              <FormLabel>Email address</FormLabel>
+              <Input value={email} type='email' onChange={(e)=>setEmail(e.target.value)} />  
+            </FormControl>
+            <FormControl id="name">
+              <FormLabel>Name</FormLabel>
+              <Input value={name} onChange={(e)=>setName(e.target.value)} type='text' />        
+            </FormControl>
+            {contact ? (
+            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={onSubmit}>update contact</Button>
+            ):(
+            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={onSubmit}>Add Contact</Button>
+    )}
         </Stack>
       </ContactInfo>
       <Box>
@@ -56,7 +116,14 @@ const Contact=()=>{
         </Box>
 
         <Box p="10">
-          {contacts.map((contact,i)=>(<ContactCard contact={contact}></ContactCard>))}
+          {contacts.map((contact,i)=>
+          (<ContactCard 
+          getContactId={getContactId}
+          deleteContact={deleteContact} 
+          onOpen={onOpenEdit} 
+          contact={contact}
+          key={contact.id}>
+          </ContactCard>))}
         </Box>
       </Box>
       </>
