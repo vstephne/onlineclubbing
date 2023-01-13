@@ -3,17 +3,17 @@ import {Box, Flex, Stack, Text} from "@chakra-ui/layout"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash, faUser } from '@fortawesome/free-solid-svg-icons'
 
-function ContactCard() {
+const ContactCard=({contact}) => {
   return (
-    <Flex justify="space-between" bg="peru" p="5"   w="50%" borderRadius="20">
-            <Flex align="center" p="4">
+    <Flex justify="space-between" bg="peru" p="3" margin="6"  w="50%" h="30%" borderRadius="20">
+            <Flex align="center" p="3" margin="15">
               <Box mr="4">
               <FontAwesomeIcon size="3x" icon={faUser}/>
               </Box>
               
               <Stack>
-              <Text>Varshaa Shree</Text>
-                <Text>vshree@gmu.edu</Text>
+              <Text>{contact.name}</Text>
+                <Text>{contact.email}</Text>
               </Stack>
              </Flex>
 

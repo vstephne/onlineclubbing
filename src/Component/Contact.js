@@ -3,27 +3,32 @@ import { AddIcon, SearchIcon } from "@chakra-ui/icons";
 import {Box, Flex, Heading, Stack, Text} from "@chakra-ui/layout"
 import { FormControl, FormHelperText, FormLabel, Input, InputGroup, InputLeftElement, useDisclosure } from '@chakra-ui/react'
 import ContactCard from './ContactCard'
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import ContactInfo from "./ContactInfo";
+import { getMouseEventOptions } from "@testing-library/user-event/dist/utils/click/getMouseEventOptions";
 
 const Contact=()=>{
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [contacts,setContacts] = useState([
+    {email:'vshree@gmu.edu',name:'Varshaa'},
+    {email:'kkollu@gmu.edu',name:'Kavya'},
+    {email:'sdk@gmu.edu',name:'Sandhya'},
+  ]);
+
     return(
       <>
       <ContactInfo isOpen={isOpen} onOpen={onOpen} onClose={onClose} title={"Contact Information"}>
-      {<>
-      <Stack>
-          <FormControl>
-            <FormLabel>Email address</FormLabel>
-            <Input type='email' />  
-          </FormControl>
-          <FormControl>
-            <FormLabel>Name</FormLabel>
-            <Input type='text' />        
-          </FormControl>
-          <Button alignSelf="flex-end">Add Contact</Button>
-      </Stack>
-      </>}
+        <Stack >
+            <FormControl>
+              <FormLabel>Email address</FormLabel>
+              <Input type='email' />  
+            </FormControl>
+            <FormControl>
+              <FormLabel>Name</FormLabel>
+              <Input type='text' />        
+            </FormControl>
+            <Button alignSelf="flex-end" bg="Peru" mb="25">Add Contact</Button>
+        </Stack>
       </ContactInfo>
       <Box>
         <Box>
@@ -51,7 +56,7 @@ const Contact=()=>{
         </Box>
 
         <Box p="10">
-          <ContactCard/>
+          {contacts.map((contact,i)=>(<ContactCard contact={contact}></ContactCard>))}
         </Box>
       </Box>
       </>
