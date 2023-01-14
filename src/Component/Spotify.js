@@ -32,10 +32,10 @@ const Spotify = ()=>{
   const [artists, setArtists] = useState([])
   const [songlinks, setSonglinks] = useState([])
 
-  useEffect((x)=>{
-        console.log(x)
-        renderLinks();
-    },[ songlinks])
+  useEffect(()=>{
+        console.log("eee",renderLinks())
+       
+    },[songlinks])
 
   const logout = () => {
     setToken("")
@@ -45,6 +45,7 @@ const Spotify = ()=>{
 
 const searchArtists = async (e) => {
     e.preventDefault()
+    let r=[]
     const {data} = await axios.get("https://api.spotify.com/v1/search", {
         headers: {
             Authorization: `Bearer ${token}`
@@ -66,17 +67,19 @@ const searchArtists = async (e) => {
               Authorization: `Bearer ${token}`
           }
       }).then(s=>{
-        console.log(s);
-        let r=[]
+        
+        
         s.data.items.forEach(x=>{
           axios.get(x.track.href, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
-        r=r.concat(x.track.external_urls.spotify)
+        
+        r=r.concat({"link":x.track.preview_url,"id":x.track.id,"name":x.track.name})
       })
       setSonglinks(r)
+      
     })
   
       
@@ -89,13 +92,16 @@ const searchArtists = async (e) => {
 }
 
 const renderLinks = () => {
-  let x =0
-  return  (
-      <div id="">
-          {/* {<a href={x.external_urls.spotify}>{x.name}</a>} */}
-      </div>
-  )
+  return songlinks.map(song => (
+    <div key={song.id}>
+        {<a href={song.link} alt="">{song.name}</a>}
+    </div>
+))
+  
+
   }
+
+
 
 const renderArtists = () => {
     return artists.map(artist => (
@@ -122,10 +128,12 @@ const renderArtists = () => {
             : <h2>Please login</h2>
         }
 
-        {/* <!--{renderArtists()}--> */}
-
         {renderArtists()}
-
+        
+        
+        {/* {console.log("???????",artists)}
+        {console.log("pppppp",renderLinks())}
+        {renderLinks()} */}
       </div>
   )
 

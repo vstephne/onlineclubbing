@@ -54,7 +54,7 @@ const Contact=(contact)=>{
     addNewContact(email,name); 
     onClose();
     }
-  };
+  }
 
   const deleteContact=(id)=>
   {
