@@ -30,7 +30,7 @@ const Contact=(contact)=>{
   const [email,setEmail]=useState(contact.email);
   const [name,setName]=useState(contact.name);
   const onSubmit=()=>{
-    if(contact)
+    if(contacts)
     {
      updateContact(email,name,contact.id);
      onClose();
@@ -40,7 +40,7 @@ const Contact=(contact)=>{
     addNewContact(email,name); 
     onClose();
     }
-  };
+  }
 
   const deleteContact=(id)=>
   {
