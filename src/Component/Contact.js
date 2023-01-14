@@ -1,36 +1,50 @@
 import { Button } from "@chakra-ui/button";
 import { AddIcon, SearchIcon } from "@chakra-ui/icons";
-import {Box, Flex, Heading, Stack, Text} from "@chakra-ui/layout"
+import {Box, Flex, Heading, Stack} from "@chakra-ui/layout"
 import { FormControl, FormLabel, Input, InputGroup, InputLeftElement, useDisclosure } from '@chakra-ui/react'
 import ContactCard from './ContactCard'
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import ContactInfo from "./ContactInfo";
 import {v4 as uuidv4 } from 'uuid';
-import { getMouseEventOptions } from "@testing-library/user-event/dist/utils/click/getMouseEventOptions";
+// import { getMouseEventOptions } from "@testing-library/user-event/dist/utils/click/getMouseEventOptions";
+
+
 
 const Contact=(contact)=>{
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen:isOpenEdit, onOpen:onOpenEdit, onClose:onCloseEdit } = useDisclosure();
   const [contacts,setContacts] = useState([
-    {id:100,name:'Test',email:'test@gmail.com'}
+    {name:'Test',email:'test@gmail.com',id:"1"},
   ]);
-  console.log(contacts);
-  const updateContact=(email,name,id)=>
-  {
-    setContacts(prev=>[...contacts.filter((contact)=>contact.id!==id),{email,name,id}]);
-  }
+
   
+
   const addNewContact=(email,name)=>{
-    if(contacts.findIndex((contact)=>contact.email===email)===-1)
+    if(contacts.findIndex((contact)=>contact.email===email)===-1 && email!=="")
     {
     setContacts([...contacts,{email,name,id:uuidv4()}]);
     }
-  }
+  };
 
-  const [email,setEmail]=useState(contact.email);
-  const [name,setName]=useState(contact.name);
+  const [contactId,setContactId]=useState();
+  const getContactId=(id)=>{
+    setContactId(id);
+  };
+
+  console.log(contacts);
+  console.log(contactId);
+
+  const updateContact=(email,name,id)=>
+  {
+    setContacts(prev=>[...contacts.filter((contact)=>contact.id!==id),{email,name,id}]);
+  };
+  
+ 
+
+  const [email,setEmail]=useState(contact ? contact.email : "");
+  const [name,setName]=useState(contact ? contact.name : "");
   const onSubmit=()=>{
-    if(contact)
+    if(contacts)
     {
      updateContact(email,name,contact.id);
      onClose();
@@ -45,19 +59,18 @@ const Contact=(contact)=>{
   const deleteContact=(id)=>
   {
     setContacts(prev=>[...contacts.filter((contact)=>contact.id!==id)]); 
-  }
-
-
-  const [contactId,setContactId]=useState();
-  const getContactId=(id)=>{
-    setContactId(id);
   };
 
   let selectContact=contacts.find((contact)=>contact.id===contactId);
 
+  const [searchData,setSearchData] = useState("");
+
+  let searchContacts = contacts.filter((contact)=>contact.name.includes(searchData));
+
     return(
       <>
-      <ContactInfo isOpen={isOpen} onOpen={onOpen} onClose={onClose} title={"Contact Information"}>
+      <ContactInfo isOpen={isOpen} onOpen={onOpen} onClose={onClose} title={"Add new Contact"}>
+        <br/>
         <Stack >
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
@@ -71,6 +84,7 @@ const Contact=(contact)=>{
         </Stack>
       </ContactInfo>
       <ContactInfo updateContact={updateContact} contact={selectContact} isOpen={isOpenEdit} onOpen={onOpenEdit} onClose={onCloseEdit} title={"Edit contact Information"}>
+        <br/>
         <Stack >
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
@@ -108,12 +122,13 @@ const Contact=(contact)=>{
                 children={<SearchIcon color='gray.300' />}
                 p="10" mr ="4"
               />
-              <Input p="10" mr="4" focusBorderColor="peru" type='text' placeholder='Search Contact....' />
+              <Input p="10" mr="4" focusBorderColor="peru" type='text' placeholder='Search Contact....'
+              onChange={(e)=>setSearchData(e.target.value)} />
             </InputGroup>
         </Box>
 
         <Box p="10">
-          {contacts.map((contact,i)=>
+          {searchContacts.map((contact,i)=>
           (<ContactCard 
           getContactId={getContactId}
           deleteContact={deleteContact} 

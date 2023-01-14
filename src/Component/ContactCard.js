@@ -5,15 +5,15 @@ import { faEdit, faTrash, faUser } from '@fortawesome/free-solid-svg-icons'
 
 const ContactCard=({contact,onOpen,getContactId,deleteContact}) => {
 
-  const updateContact=(id)=>
+  const updateContactinfo=(id)=>
   {
     getContactId(id);
     onOpen();
-  }
+  };
   const deleteContactinfo=(id)=>
   {
     deleteContact(id);
-  }
+  };
 
   return (
     <Flex justify="space-between" bg="peru" p="3" margin="6"  w="50%" h="30%" borderRadius="20">
@@ -29,7 +29,7 @@ const ContactCard=({contact,onOpen,getContactId,deleteContact}) => {
              </Flex>
 
              <Flex align="center" >
-              <Box mr="4" onClick={()=>updateContact(contact.id)}>
+              <Box mr="4" onClick={()=>updateContactinfo(contact.id)}>
                 <FontAwesomeIcon size="2x" icon={faEdit}/>
              </Box>
              <Box color="maroon" onClick={()=>deleteContactinfo(contact.id)}>
