@@ -29,17 +29,29 @@ const Contact=(contact)=>{
 
   const [email,setEmail]=useState(contact.email);
   const [name,setName]=useState(contact.name);
-  const onSubmit=()=>{
-    // if(contacts)
-    // {
-    //  updateContact(email,name,contact.id);
-    //  onClose();
-    // }
-    // else
-    // {
-    addNewContact(email,name); 
+  
+  const onSubmit=(x)=>{
+    if(x==="addContact")
+    {
+     
+     addNewContact(email,name); 
     onClose();
-    // }
+    }
+    else
+    {
+      updateContact(email,name,contact.id);
+      onClose();
+    }
+  }
+
+  const addContact=()=>{
+    onSubmit("addContact")
+   
+  }
+
+  const update=(x)=>{
+    onSubmit("update")
+   
   }
 
   const deleteContact=(id)=>
@@ -67,7 +79,7 @@ const Contact=(contact)=>{
               <FormLabel>Name</FormLabel>
               <Input value={name}  type='text'  onChange={(e)=>setName(e.target.value)}  />        
             </FormControl>
-            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={onSubmit}>Add Contact</Button>
+            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={addContact}>Add Contact</Button>
         </Stack>
       </ContactInfo>
       <ContactInfo updateContact={updateContact} contact={selectContact} isOpen={isOpenEdit} onOpen={onOpenEdit} onClose={onCloseEdit} title={"Edit contact Information"}>
@@ -81,7 +93,7 @@ const Contact=(contact)=>{
               <Input value={name} onChange={(e)=>setName(e.target.value)} type='text' />        
             </FormControl>
             {contact ? (
-            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={onSubmit}>update contact</Button>
+            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={update}>update contact</Button>
             ):(
             <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={onSubmit}>Add Contact</Button>
     )}
