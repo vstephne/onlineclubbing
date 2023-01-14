@@ -39,21 +39,37 @@ const Contact=(contact)=>{
     setContacts(prev=>[...contacts.filter((contact)=>contact.id!==id),{email,name,id}]);
   };
   
- 
-
-  const [email,setEmail]=useState(contact ? contact.email : "");
-  const [name,setName]=useState(contact ? contact.name : "");
-  const onSubmit=()=>{
-    if(contact)
+  const addNewContact=(email,name)=>{
+    if(contacts.findIndex((contact)=>contact.email===email)===-1)
     {
-     updateContact(email,name,contact.id);
-     onClose();
+    setContacts([...contacts,{email,name,id:uuidv4()}]);
+    }
+  }
+
+  const [email,setEmail]=useState(contact.email);
+  const [name,setName]=useState(contact.name);
+  const onSubmit=()=>{
+    if(contacts)
+    {
+     
+     addNewContact(email,name); 
+    onClose();
     }
     else
     {
-    addNewContact(email,name); 
-    onClose();
+      updateContact(email,name,contact.id);
+      onClose();
     }
+  }
+
+  const addContact=()=>{
+    onSubmit("addContact")
+   
+  }
+
+  const update=(x)=>{
+    onSubmit("update")
+   
   }
 
   const deleteContact=(id)=>
@@ -81,7 +97,7 @@ const Contact=(contact)=>{
               <FormLabel>Name</FormLabel>
               <Input value={name}  type='text'  onChange={(e)=>setName(e.target.value)}  />        
             </FormControl>
-            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={onSubmit}>Add Contact</Button>
+            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={addContact}>Add Contact</Button>
         </Stack>
       </ContactInfo>
       <ContactInfo updateContact={updateContact} contact={selectContact} isOpen={isOpenEdit} onOpen={onOpenEdit} onClose={onCloseEdit} title={"Edit contact Information"}>
@@ -96,7 +112,7 @@ const Contact=(contact)=>{
               <Input value={name} onChange={(e)=>setName(e.target.value)} type='text' />        
             </FormControl>
             {contact ? (
-            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={onSubmit}>update contact</Button>
+            <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={update}>update contact</Button>
             ):(
             <Button alignSelf="flex-end" bg="Peru" mb="25" onClick={onSubmit}>Add Contact</Button>
     )}
