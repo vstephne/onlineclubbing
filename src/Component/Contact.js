@@ -18,7 +18,7 @@ const Contact=(contact)=>{
   ]);
 
   
-
+  const [contactId,setContactId]=useState();
   const addNewContact=(email,name)=>{
     if(contacts.findIndex((contact)=>contact.email===email)===-1 && email!=="")
     {
@@ -26,7 +26,7 @@ const Contact=(contact)=>{
     }
   };
 
-  const [contactId,setContactId]=useState();
+ 
   const getContactId=(id)=>{
     setContactId(id);
   };
@@ -44,7 +44,7 @@ const Contact=(contact)=>{
   const [email,setEmail]=useState(contact ? contact.email : "");
   const [name,setName]=useState(contact ? contact.name : "");
   const onSubmit=()=>{
-    if(contacts)
+    if(contact)
     {
      updateContact(email,name,contact.id);
      onClose();
@@ -63,6 +63,7 @@ const Contact=(contact)=>{
 
   let selectContact=contacts.find((contact)=>contact.id===contactId);
 
+  console.log(selectContact);
   const [searchData,setSearchData] = useState("");
 
   let searchContacts = contacts.filter((contact)=>contact.name.includes(searchData));

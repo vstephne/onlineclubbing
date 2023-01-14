@@ -15,6 +15,8 @@ const ContactCard=({contact,onOpen,getContactId,deleteContact}) => {
     deleteContact(id);
   };
 
+  console.log(contact.id);
+
   return (
     <Flex justify="space-between" bg="peru" p="3" margin="6"  w="50%" h="30%" borderRadius="20">
             <Flex align="center" p="3" margin="15">
@@ -27,7 +29,7 @@ const ContactCard=({contact,onOpen,getContactId,deleteContact}) => {
               <Text>{contact.name}</Text>
               </Stack>
              </Flex>
-
+              
              <Flex align="center" >
               <Box mr="4" onClick={()=>updateContactinfo(contact.id)}>
                 <FontAwesomeIcon size="2x" icon={faEdit}/>
