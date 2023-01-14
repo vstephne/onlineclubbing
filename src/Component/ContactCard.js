@@ -29,13 +29,14 @@ const ContactCard=({contact,onOpen,getContactId,deleteContact}) => {
              </Flex>
 
              <Flex align="center" >
-              <Box mr="4" onClick={updateContact(contact.id)}>
+              <Box mr="4" onClick={()=>updateContact(contact.id)}>
                 <FontAwesomeIcon size="2x" icon={faEdit}/>
              </Box>
              <Box color="maroon" onClick={()=>deleteContactinfo(contact.id)}>
               <FontAwesomeIcon size="2x" icon={faTrash}/>
              </Box>
              </Flex>
+            
           </Flex>
   )
 }

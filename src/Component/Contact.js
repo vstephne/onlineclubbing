@@ -17,7 +17,7 @@ const Contact=(contact)=>{
   console.log(contacts);
   const updateContact=(email,name,id)=>
   {
-    setContacts(prev=>[...contacts.filter((contact)=>contact.id!==id),{email,name,id}]);
+    setContacts(prev=>[...contacts.filter((contact)=>contact.id!==contactId),{email,name,contactId}]);
   }
   
   const addNewContact=(email,name)=>{
@@ -49,7 +49,7 @@ const Contact=(contact)=>{
    
   }
 
-  const update=(x)=>{
+  const update=()=>{
     onSubmit("update")
    
   }
