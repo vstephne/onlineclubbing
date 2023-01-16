@@ -30,16 +30,18 @@ const Contact=(contact)=>{
   const [email,setEmail]=useState(contact.email);
   const [name,setName]=useState(contact.name);
   const onSubmit=()=>{
-    // if(contacts)
-    // {
-    //  updateContact(email,name,contact.id);
-    //  onClose();
-    // }
-    // else
-    // {
-    addNewContact(email,name); 
-    onClose();
-    // }
+    if(contact)
+    {
+      updateContact(email,name,contact.id);
+    
+     onClose();
+    }
+    else
+    {
+      addNewContact(email,name); 
+      onClose();
+      }
+    
   }
 
   const deleteContact=(id)=>
@@ -128,4 +130,4 @@ const Contact=(contact)=>{
   
 }
 
-export default  Contact
+export default  Contact;
